@@ -1,0 +1,2109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Models: Strengths & Weaknesses</title>
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --accent: #3b82f6;
+            --accent-hover: #60a5fa;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-snap-type: y mandatory;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg-secondary);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid var(--bg-card);
+        }
+
+        nav h1 {
+            font-size: 1.25rem;
+            color: var(--accent);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        /* Main Content */
+        main {
+            width: 100%;
+            padding: 0;
+        }
+
+        section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 6rem 2rem 4rem;
+            scroll-snap-align: start;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        section > * {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--accent), #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: slideInDown 1s ease;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            max-width: 700px;
+            margin: 0 auto;
+            animation: slideInUp 1s ease 0.3s both;
+        }
+
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Categories Grid */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .category-item {
+            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-card));
+            border-radius: 1rem;
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.4s ease;
+            cursor: default;
+        }
+
+        .category-item:hover {
+            border-color: var(--accent);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 50px rgba(59, 130, 246, 0.3);
+        }
+
+        .category-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .category-item h3 {
+            font-size: 1.35rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .category-item p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        /* Category Slide Template */
+        .category-slide {
+            text-align: left;
+        }
+
+        .category-slide .content-wrapper {
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .category-description {
+            flex: 0 0 350px;
+            padding-right: 2rem;
+        }
+
+        .category-slide .category-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .category-slide .category-header span {
+            font-size: 3rem;
+        }
+
+        .category-slide h2 {
+            display: inline-block;
+            border: none;
+            margin-bottom: 0;
+            font-size: 2rem;
+        }
+
+        .category-slide h3 {
+            font-size: 1.5rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--accent);
+        }
+
+        .category-slide .subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .category-slide a {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .category-slide a:hover {
+            color: var(--accent-hover);
+            text-decoration: underline;
+        }
+
+        /* Horizontal Bar Chart */
+        .chart-container {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .chart-row {
+            margin-bottom: 1.5rem;
+        }
+
+        .chart-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .model-name {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .score {
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .bar-background {
+            width: 100%;
+            height: 40px;
+            background: var(--bg-card);
+            border-radius: 0.5rem;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Compressed version for slides with many entries */
+        #reasoning .chart-row {
+            margin-bottom: 0.75rem;
+        }
+
+        #reasoning .chart-label {
+            margin-bottom: 0.25rem;
+            font-size: 0.9rem;
+        }
+
+        #reasoning .bar-background {
+            height: 28px;
+        }
+
+        #reasoning .score {
+            font-size: 0.95rem;
+        }
+
+        #reasoning .category-description {
+            flex: 0 0 300px;
+        }
+
+        #multimodal .chart-row {
+            margin-bottom: 0.75rem;
+        }
+
+        #multimodal .chart-label {
+            margin-bottom: 0.25rem;
+            font-size: 0.9rem;
+        }
+
+        #multimodal .bar-background {
+            height: 28px;
+        }
+
+        #multimodal .score {
+            font-size: 0.95rem;
+        }
+
+        #multimodal .category-description {
+            flex: 0 0 300px;
+        }
+
+        #multilingual .chart-row {
+            margin-bottom: 0.75rem;
+        }
+
+        #multilingual .chart-label {
+            margin-bottom: 0.25rem;
+            font-size: 0.9rem;
+        }
+
+        #multilingual .bar-background {
+            height: 28px;
+        }
+
+        #multilingual .score {
+            font-size: 0.95rem;
+        }
+
+        #multilingual .category-description {
+            flex: 0 0 300px;
+        }
+
+        #safety-view .chart-row {
+            margin-bottom: 0.75rem;
+        }
+
+        #safety-view .chart-label {
+            margin-bottom: 0.25rem;
+            font-size: 0.9rem;
+        }
+
+        #safety-view .bar-background {
+            height: 28px;
+        }
+
+        #safety-view .score {
+            font-size: 0.95rem;
+        }
+
+        .vending-table-container {
+            flex: 1;
+            overflow-x: auto;
+        }
+
+        .vending-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        .vending-table thead {
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .vending-table th {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: #a5b4fc;
+            border-bottom: 2px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .vending-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .vending-table tbody tr:hover {
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .vending-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .vending-table th:first-child,
+        .vending-table td:first-child {
+            width: 60px;
+            text-align: center;
+            color: #94a3b8;
+        }
+
+        .vending-table td:nth-child(3),
+        .vending-table td:nth-child(4),
+        .vending-table td:nth-child(5) {
+            font-weight: 500;
+        }
+
+        .vending-table td:nth-child(3) {
+            color: #34d399;
+        }
+
+        .vending-table td:nth-child(5) {
+            color: #a78bfa;
+        }
+
+        .toggle-container {
+            display: flex;
+            gap: 0.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .toggle-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid rgba(99, 102, 241, 0.3);
+            background: transparent;
+            color: #94a3b8;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-btn:hover {
+            border-color: rgba(99, 102, 241, 0.6);
+            color: #c7d2fe;
+        }
+
+        .toggle-btn.active {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-color: #6366f1;
+            color: white;
+        }
+
+        .toggle-content {
+            display: none;
+        }
+
+        .toggle-content.active {
+            display: block;
+        }
+
+        .image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 400px;
+        }
+
+        .safety-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        .safety-table thead {
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .safety-table th {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: #a5b4fc;
+            border-bottom: 2px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .safety-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .safety-table tbody tr:hover {
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .safety-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .safety-table th:first-child,
+        .safety-table td:first-child {
+            width: 60px;
+            text-align: center;
+            color: #94a3b8;
+        }
+
+        .safety-table td:nth-child(3) {
+            font-weight: 500;
+            color: #34d399;
+        }
+
+        /* Toggle Buttons */
+        .toggle-container {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            background: var(--bg-card);
+            padding: 0.5rem;
+            border-radius: 0.75rem;
+            width: fit-content;
+        }
+
+        .toggle-btn {
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .toggle-btn.active {
+            background: var(--accent);
+            color: white;
+        }
+
+        .toggle-btn:hover:not(.active) {
+            background: rgba(59, 130, 246, 0.2);
+            color: var(--accent);
+        }
+
+        .dataset {
+            display: none;
+        }
+
+        .dataset.active {
+            display: block;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), #a855f7);
+            border-radius: 0.5rem;
+            transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            padding-left: 1rem;
+            color: white;
+            font-weight: 500;
+            width: 0 !important;
+        }
+
+        .bar-fill.animated {
+            width: var(--target-width) !important;
+        }
+
+        .bar-fill.excellent {
+            background: linear-gradient(90deg, var(--success), #16a34a);
+        }
+
+        .bar-fill.good {
+            background: linear-gradient(90deg, var(--accent), #2563eb);
+        }
+
+        .bar-fill.moderate {
+            background: linear-gradient(90deg, var(--warning), #d97706);
+        }
+
+        .bar-fill.limited {
+            background: linear-gradient(90deg, var(--danger), #dc2626);
+        }
+
+        /* Model-specific colors */
+        .bar-fill.claude {
+            background: linear-gradient(90deg, #f97316, #ea580c);
+        }
+
+        .bar-fill.gpt {
+            background: linear-gradient(90deg, #10b981, #059669);
+        }
+
+        .bar-fill.gemini {
+            background: linear-gradient(90deg, #8b5cf6, #7c3aed);
+        }
+
+        .bar-fill.o3 {
+            background: linear-gradient(90deg, #06b6d4, #0891b2);
+        }
+
+        .bar-fill.kimi {
+            background: linear-gradient(90deg, #ec4899, #db2777);
+        }
+
+        .bar-fill.gpt-oss {
+            background: linear-gradient(90deg, #f59e0b, #d97706);
+        }
+
+        /* Filter Buttons */
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--bg-card);
+            color: var(--text-secondary);
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        /* Comparison Table */
+        .table-container {
+            overflow-x: auto;
+            border-radius: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-secondary);
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--bg-card);
+        }
+
+        th {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+
+        td {
+            color: var(--text-secondary);
+        }
+
+        tr:hover {
+            background: var(--bg-card);
+        }
+
+        /* Rating Badges */
+        .rating {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .rating.excellent {
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--success);
+        }
+
+        .rating.best {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: #000;
+            font-weight: 700;
+        }
+
+        .rating.good {
+            background: rgba(59, 130, 246, 0.2);
+            color: var(--accent);
+        }
+
+        .rating.moderate {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+        }
+
+        .rating.limited {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+        }
+
+        /* Cards */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: var(--bg-secondary);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            border: 1px solid var(--bg-card);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .card h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card ul {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .card li {
+            padding: 0.5rem 0;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--bg-card);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .card li:last-child {
+            border-bottom: none;
+        }
+
+        .card li::before {
+            content: "→";
+            color: var(--accent);
+        }
+
+        /* Expandable Sections */
+        .expandable {
+            background: var(--bg-secondary);
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .expandable-header {
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s;
+        }
+
+        .expandable-header:hover {
+            background: var(--bg-card);
+        }
+
+        .expandable-header h4 {
+            font-size: 1rem;
+            color: var(--text-primary);
+        }
+
+        .expandable-icon {
+            transition: transform 0.3s;
+            color: var(--accent);
+        }
+
+        .expandable.open .expandable-icon {
+            transform: rotate(180deg);
+        }
+
+        .expandable-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .expandable.open .expandable-content {
+            max-height: 500px;
+        }
+
+        .expandable-content-inner {
+            padding: 0 1.5rem 1.5rem;
+        }
+
+        /* Tags */
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .tag {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            background: var(--bg-card);
+            border-radius: 0.25rem;
+            color: var(--text-secondary);
+        }
+
+        /* Key Takeaways */
+        .takeaway {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(168, 85, 247, 0.1));
+            border-left: 4px solid var(--accent);
+            padding: 1.5rem;
+            border-radius: 0 0.5rem 0.5rem 0;
+            margin: 2rem 0;
+        }
+
+        .takeaway h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--bg-card);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            html {
+                scroll-snap-type: none;
+            }
+
+            section {
+                min-height: auto;
+                padding: 4rem 1rem;
+            }
+
+            nav ul {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            h2 {
+                font-size: 1.75rem;
+            }
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .scroll-indicator::after {
+            content: "▼";
+            display: block;
+            text-align: center;
+            margin-top: 0.5rem;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <h1>Wilson Chan - Generalist AI Summary</h1>
+        <ul>
+            <li><a href="#categories">Categories</a></li>
+            <li><a href="#coding">Coding</a></li>
+            <li><a href="#reasoning">Reasoning</a></li>
+            <li><a href="#multimodal">Multimodal</a></li>
+            <li><a href="#multilingual">Multilingual</a></li>
+            <li><a href="#comparison">Comparison</a></li>
+            <li><a href="#recommendations">Recommendations</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <h1>AI Models: Strengths & Weaknesses</h1>
+            <p>A technical comparison of leading generalist AI models and their specialised capabilities.</p>
+            <div class="scroll-indicator">Scroll to explore</div>
+        </section>
+
+        <!-- Categories Evaluated -->
+        <section id="categories">
+            <h2>Categories Evaluated</h2>
+            
+            <div class="categories-grid">
+                <div class="category-item">
+                    <span class="category-icon">💻</span>
+                    <h3>Coding</h3>
+                    <p>Code generation, debugging & understanding</p>
+                </div>
+
+                <div class="category-item">
+                    <span class="category-icon">🧠</span>
+                    <h3>Reasoning</h3>
+                    <p>Logical analysis & problem solving</p>
+                </div>
+
+                <div class="category-item">
+                    <span class="category-icon">🎨</span>
+                    <h3>Multimodal</h3>
+                    <p>Understanding text, images, video & audio</p>
+                </div>
+
+                <div class="category-item">
+                    <span class="category-icon">🌍</span>
+                    <h3>Multilingual</h3>
+                    <p>Support for multiple languages</p>
+                </div>
+
+                <div class="category-item">
+                    <span class="category-icon">🍫</span>
+                    <h3>Vending Machine Operation</h3>
+                    <p>How well an AI model can operate a vending machine</p>
+                </div>
+
+                <div class="category-item">
+                    <span class="category-icon">📊</span>
+                    <h3>Other Info</h3>
+                    <p>AI safety, bias & additional insights</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Coding Category Slide -->
+        <section id="coding" class="category-slide">
+            <div class="content-wrapper">
+                <div class="category-description">
+                    <div class="category-header">
+                        <span>💻</span>
+                        <h2>Coding</h2>
+                        <p>% Resolved</p>
+                    </div>
+                    <h3>SWE Bench Pro</h3>
+                    <p class="subtitle">This is how well an AI model evaluates when tasked with challenging general software engineering tasks based on diverse codebases.</p>
+                    <a href="https://scale.com/research/swe_bench_pro" target="_blank">View Research Article →</a>
+                </div>
+                
+                <div class="chart-container">
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">Claude Opus 4.5 (2025-11-01)</span>
+                            <span class="score">45.98 ± 3.60</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill claude" style="width: 45.98%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">Claude Sonnet 4.5</span>
+                            <span class="score">43.60 ± 3.60</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill claude" style="width: 43.60%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">Gemini 3 Pro (Preview)</span>
+                            <span class="score">43.3 ± 3.60</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill gemini" style="width: 43.3%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">Claude Sonnet 4</span>
+                            <span class="score">42.70 ± 3.59</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill claude" style="width: 42.70%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">GPT 5 (2025-08-07)</span>
+                            <span class="score">41.78 ± 3.59</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill gpt" style="width: 41.78%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">Claude Haiku 4.5</span>
+                            <span class="score">39.45 ± 3.55</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill claude" style="width: 39.45%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">Kimi K2 Instruct</span>
+                            <span class="score">27.67 ± 3.25</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill kimi" style="width: 27.67%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reasoning Category Slide -->
+        <section id="reasoning" class="category-slide">
+            <div class="content-wrapper">
+                <div class="category-description">
+                    <div class="category-header">
+                        <span>🧠</span>
+                        <h2>Reasoning</h2>
+                    </div>
+                    
+                    <h3>Professional Reasoning Benchmark - Legal</h3>
+                    <p class="subtitle">Question set based upon a professional panel of 182 domain experts in law. This test is domain-specific.</p>
+                    <a href="https://scale.com/leaderboard/prbench-legal" target="_blank">View Leaderboard →</a>
+                </div>
+                
+                <div class="chart-container">
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">GPT-5-Pro</span>
+                            <span class="score">49.89 ± 0.36</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill gpt" style="width: 49.89%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">o3-Pro</span>
+                            <span class="score">49.67 ± 0.50</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill o3" style="width: 49.67%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">GPT-5.1-Thinking</span>
+                            <span class="score">49.33 ± 0.38</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill gpt" style="width: 49.33%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">GPT-5</span>
+                            <span class="score">48.96 ± 0.03</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill gpt" style="width: 48.96%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">o3</span>
+                            <span class="score">48.57 ± 0.54</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill o3" style="width: 48.57%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">GPT-5.2-Pro (2025-12-11)</span>
+                            <span class="score">45.44 ± 0.25</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill gpt" style="width: 45.44%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">Claude Opus 4.5 (20251101-Thinking)</span>
+                            <span class="score">44.21 ± 0.34</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill claude" style="width: 44.21%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">Gemini 2.5 Pro</span>
+                            <span class="score">41.43 ± 0.20</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill gemini" style="width: 41.43%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">Gemini 2.5 Flash</span>
+                            <span class="score">41.02 ± 0.61</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill gemini" style="width: 41.02%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">Claude Sonnet 4.5 (20250929)</span>
+                            <span class="score">40.84 ± 0.40</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill claude" style="width: 40.84%;"></div>
+                        </div>
+                    </div>
+                    </div>
+
+                    <div id="humanity-data" class="dataset">
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">Gemini 3 Pro (Preview)</span>
+                            <span class="score">37.52 ± 1.90</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill gemini" style="width: 37.52%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">GPT-5-Pro (2025-10-06)</span>
+                            <span class="score">31.64 ± 1.82</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill gpt" style="width: 31.64%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">GPT-5.2 (2025-12-11)</span>
+                            <span class="score">27.80 ± 1.76</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill gpt" style="width: 27.80%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">GPT-5 (2025-08-07)</span>
+                            <span class="score">25.32 ± 1.70</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill gpt" style="width: 25.32%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">Claude Opus 4.5 (20251101-Thinking)</span>
+                            <span class="score">25.20 ± 1.70</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill claude" style="width: 25.20%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">GPT-5.1-Thinking</span>
+                            <span class="score">23.68 ± 1.67</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill gpt" style="width: 23.68%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">Gemini 2.5 Pro (Preview 06-05)</span>
+                            <span class="score">21.64 ± 1.61</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill gemini" style="width: 21.64%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">o3 (High) - April 2025</span>
+                            <span class="score">20.32 ± 1.58</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill o3" style="width: 20.32%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">GPT-5-Mini (2025-08-07)</span>
+                            <span class="score">19.44 ± 1.55</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill gpt" style="width: 19.44%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">o3 (Medium) - April 2025</span>
+                            <span class="score">19.20 ± 1.54</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill o3" style="width: 19.20%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Multimodal Category Slide -->
+        <section id="multimodal" class="category-slide">
+            <div class="content-wrapper">
+                <div class="category-description">
+                    <div class="category-header">
+                        <span>🎨</span>
+                        <h2>Multimodal</h2>
+                    </div>
+                    
+                    <h3>Humanity's Last Exam</h3>
+                    <p class="subtitle">A diverse general reasoning benchmark testing AI capabilities across text, images, and other modalities with a broad spectrum of questions.</p>
+                    <a href="https://scale.com/leaderboard/humanitys_last_exam" target="_blank">View Leaderboard →</a>
+                </div>
+                
+                <div class="chart-container">
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">Gemini 3 Pro (Preview)</span>
+                            <span class="score">37.52 ± 1.90</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill gemini" style="width: 37.52%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">GPT-5-Pro (2025-10-06)</span>
+                            <span class="score">31.64 ± 1.82</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill gpt" style="width: 31.64%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">GPT-5.2 (2025-12-11)</span>
+                            <span class="score">27.80 ± 1.76</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill gpt" style="width: 27.80%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">GPT-5 (2025-08-07)</span>
+                            <span class="score">25.32 ± 1.70</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill gpt" style="width: 25.32%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">Claude Opus 4.5 (20251101-Thinking)</span>
+                            <span class="score">25.20 ± 1.70</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill claude" style="width: 25.20%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">GPT-5.1-Thinking</span>
+                            <span class="score">23.68 ± 1.67</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill gpt" style="width: 23.68%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">Gemini 2.5 Pro (Preview 06-05)</span>
+                            <span class="score">21.64 ± 1.61</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill gemini" style="width: 21.64%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">o3 (High) - April 2025</span>
+                            <span class="score">20.32 ± 1.58</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill o3" style="width: 20.32%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">GPT-5-Mini (2025-08-07)</span>
+                            <span class="score">19.44 ± 1.55</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill gpt" style="width: 19.44%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">o3 (Medium) - April 2025</span>
+                            <span class="score">19.20 ± 1.54</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill o3" style="width: 19.20%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Multilingual Category Slide -->
+        <section id="multilingual" class="category-slide">
+            <div class="content-wrapper">
+                <div class="category-description">
+                    <div class="category-header">
+                        <span>🌍</span>
+                        <h2>Multilingual</h2>
+                    </div>
+                    
+                    <h3>MultiNRC</h3>
+                    <p class="subtitle">A multilingual reading comprehension benchmark testing AI models' ability to understand and reason across multiple languages with complex context.</p>
+                    <a href="https://scale.com/leaderboard/multinrc" target="_blank">View Leaderboard →</a>
+                </div>
+                
+                <div class="chart-container">
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">GPT-5-Pro (2025-10-06)</span>
+                            <span class="score">65.20 ± 1.24</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill gpt" style="width: 65.20%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">Gemini 3 Pro (Preview)</span>
+                            <span class="score">58.96 ± 2.97</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill gemini" style="width: 58.96%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">GPT-5 (2025-08-07)</span>
+                            <span class="score">52.13 ± 3.01</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill gpt" style="width: 52.13%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">o3-Pro (2025-06-10-High)</span>
+                            <span class="score">49.00 ± 3.02</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill o3" style="width: 49.00%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">GPT-5.1-Thinking</span>
+                            <span class="score">49.00 ± 3.02</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill gpt" style="width: 49.00%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">Claude Opus 4.5 (20251101-Thinking)</span>
+                            <span class="score">48.63 ± 3.02</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill claude" style="width: 48.63%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">o3 (2025-04-16-High)</span>
+                            <span class="score">45.50 ± 3.00</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill o3" style="width: 45.50%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">Gemini 2.5 Pro (Preview 06-05)</span>
+                            <span class="score">45.12 ± 3.00</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill gemini" style="width: 45.12%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">o3 (2025-04-16-Medium)</span>
+                            <span class="score">44.45 ± 3.00</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill o3" style="width: 44.45%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-label">
+                            <span class="model-name">GPT-5.2 (2025-12-11)</span>
+                            <span class="score">42.18 ± 2.98</span>
+                        </div>
+                        <div class="bar-background">
+                            <div class="bar-fill gpt" style="width: 42.18%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Vending Machine Operation Category Slide -->
+        <section id="vending-machine" class="category-slide">
+            <div class="content-wrapper">
+                <div class="category-description">
+                    <div class="category-header">
+                        <span>🍫</span>
+                        <h2>Vending Machine</h2>
+                    </div>
+                    
+                    <h3>VendingBench</h3>
+                    <p class="subtitle">A lighthearted test where AI models operate a vending machine business, managing inventory, sales, and finances. Success is measured by how long they can keep the business running profitably.</p>
+                    <a href="https://andonlabs.com/evals/vending-bench" target="_blank">View Benchmark →</a>
+                </div>
+                
+                <div class="vending-table-container">
+                    <table class="vending-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Model</th>
+                                <th>Revenue</th>
+                                <th>Days Operated</th>
+                                <th>$/Day</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Grok 4</td>
+                                <td>$4,694</td>
+                                <td>324</td>
+                                <td>$14.49</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Gemini 3 Pro</td>
+                                <td>$4,388</td>
+                                <td>239</td>
+                                <td>$18.36</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>GPT-5</td>
+                                <td>$3,579</td>
+                                <td>363</td>
+                                <td>$9.86</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>Claude Sonnet 4.5</td>
+                                <td>$2,465</td>
+                                <td>350</td>
+                                <td>$7.04</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>GPT-5.1</td>
+                                <td>$2,380</td>
+                                <td>136</td>
+                                <td>$17.50</td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td>Claude 3.5 Sonnet</td>
+                                <td>$2,218</td>
+                                <td>102</td>
+                                <td>$21.75</td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                                <td>Claude Opus 4</td>
+                                <td>$2,077</td>
+                                <td>132</td>
+                                <td>$15.73</td>
+                            </tr>
+                            <tr>
+                                <td>8</td>
+                                <td>o3</td>
+                                <td>$1,843</td>
+                                <td>112</td>
+                                <td>$16.46</td>
+                            </tr>
+                            <tr>
+                                <td>9</td>
+                                <td>👨 Human</td>
+                                <td>$844</td>
+                                <td>67</td>
+                                <td>$12.60</td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                                <td>Gemini 2.5 Pro</td>
+                                <td>$789</td>
+                                <td>68</td>
+                                <td>$11.60</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Other Info Category Slide -->
+        <section id="other-info" class="category-slide">
+            <div class="content-wrapper">
+                <div class="category-description">
+                    <h2>Other Info</h2>
+                    <div class="toggle-container">
+                        <button class="toggle-btn active" data-view="bias">AI Bias</button>
+                        <button class="toggle-btn" data-view="safety">AI Safety</button>
+                    </div>
+                    
+                    <div id="bias-description" class="toggle-content active">
+                        <p class="benchmark-link">
+                            <a href="https://trackingai.org/political-test" target="_blank">Political Compass Test</a>
+                        </p>
+                        <p>An evaluation of AI models' political leanings across economic and social dimensions. Models are plotted on a political compass showing their tendencies when responding to politically-charged questions.</p>
+                    </div>
+                    
+                    <div id="safety-description" class="toggle-content">
+                        <p class="benchmark-link">
+                            <a href="https://scale.com/leaderboard/fortress" target="_blank">Fortress Benchmark</a>
+                        </p>
+                        <p>Measures AI models' propensity to comply with or enable malicious requests. Lower scores indicate better safety performance (less compliance with harmful requests).</p>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div id="bias-view" class="toggle-content active">
+                        <div class="image-container">
+                            <img src="political-compass.png" alt="AI Political Compass" style="max-width: 100%; height: auto; border-radius: 8px;">
+                        </div>
+                    </div>
+
+                    <div id="safety-view" class="toggle-content">
+                        <div class="chart-row">
+                            <div class="chart-label">
+                                <span class="model-name">GPT-OSS 120B</span>
+                                <span class="score">8.24 ±1.93</span>
+                            </div>
+                            <div class="bar-background">
+                                <div class="bar-fill gpt-oss" style="width: 48.58%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="chart-row">
+                            <div class="chart-label">
+                                <span class="model-name">Claude Opus 4.5 (thinking)</span>
+                                <span class="score">9.63 ±2.11</span>
+                            </div>
+                            <div class="bar-background">
+                                <div class="bar-fill claude" style="width: 56.78%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="chart-row">
+                            <div class="chart-label">
+                                <span class="model-name">Claude Sonnet 4.5 (thinking)</span>
+                                <span class="score">12.80 ±2.36</span>
+                            </div>
+                            <div class="bar-background">
+                                <div class="bar-fill claude" style="width: 75.47%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="chart-row">
+                            <div class="chart-label">
+                                <span class="model-name">Claude 3.5 Sonnet</span>
+                                <span class="score">12.96 ±2.34</span>
+                            </div>
+                            <div class="bar-background">
+                                <div class="bar-fill claude" style="width: 76.42%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="chart-row">
+                            <div class="chart-label">
+                                <span class="model-name">Claude Opus 4.5</span>
+                                <span class="score">13.56 ±2.49</span>
+                            </div>
+                            <div class="bar-background">
+                                <div class="bar-fill claude" style="width: 79.95%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="chart-row">
+                            <div class="chart-label">
+                                <span class="model-name">Claude Opus 4.1 (thinking)</span>
+                                <span class="score">14.79 ±2.49</span>
+                            </div>
+                            <div class="bar-background">
+                                <div class="bar-fill claude" style="width: 87.20%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="chart-row">
+                            <div class="chart-label">
+                                <span class="model-name">GPT-5 Pro</span>
+                                <span class="score">15.20 ±2.30</span>
+                            </div>
+                            <div class="bar-background">
+                                <div class="bar-fill gpt" style="width: 89.62%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="chart-row">
+                            <div class="chart-label">
+                                <span class="model-name">o3</span>
+                                <span class="score">16.01 ±2.68</span>
+                            </div>
+                            <div class="bar-background">
+                                <div class="bar-fill o3" style="width: 94.40%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="chart-row">
+                            <div class="chart-label">
+                                <span class="model-name">Claude Opus 4.1</span>
+                                <span class="score">16.15 ±2.58</span>
+                            </div>
+                            <div class="bar-background">
+                                <div class="bar-fill claude" style="width: 95.22%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="chart-row">
+                            <div class="chart-label">
+                                <span class="model-name">Claude Sonnet 4.5</span>
+                                <span class="score">16.96 ±2.70</span>
+                            </div>
+                            <div class="bar-background">
+                                <div class="bar-fill claude" style="width: 100%;"></div>
+                            </div>
+                        </div>
+
+                        <p style="color: #94a3b8; font-size: 0.85rem; margin-top: 1rem; font-style: italic;">
+                            * Lower scores indicate better safety (less compliance with harmful requests)
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Comparison Table -->
+        <section id="comparison">
+            <h2>Detailed Comparison</h2>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Model</th>
+                            <th>Coding</th>
+                            <th>Reasoning</th>
+                            <th>Multilingual</th>
+                            <th>Multimodal</th>
+                            <th>Safety</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>GPT-5</strong></td>
+                            <td><span class="rating excellent">Excellent</span></td>
+                            <td><span class="rating best">Best</span></td>
+                            <td><span class="rating best">Best</span></td>
+                            <td><span class="rating good">Good</span></td>
+                            <td><span class="rating moderate">Moderate</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Claude Sonnet 4.5</strong></td>
+                            <td><span class="rating excellent">Excellent</span></td>
+                            <td><span class="rating excellent">Excellent</span></td>
+                            <td><span class="rating good">Good</span></td>
+                            <td><span class="rating excellent">Excellent</span></td>
+                            <td><span class="rating excellent">Excellent</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Gemini 3 Pro</strong></td>
+                            <td><span class="rating good">Good</span></td>
+                            <td><span class="rating good">Good</span></td>
+                            <td><span class="rating excellent">Excellent</span></td>
+                            <td><span class="rating best">Best</span></td>
+                            <td><span class="rating good">Good</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>o3</strong></td>
+                            <td><span class="rating good">Good</span></td>
+                            <td><span class="rating excellent">Excellent</span></td>
+                            <td><span class="rating moderate">Moderate</span></td>
+                            <td><span class="rating good">Good</span></td>
+                            <td><span class="rating moderate">Moderate</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Claude Opus 4.5</strong></td>
+                            <td><span class="rating best">Best</span></td>
+                            <td><span class="rating excellent">Excellent</span></td>
+                            <td><span class="rating good">Good</span></td>
+                            <td><span class="rating good">Good</span></td>
+                            <td><span class="rating excellent">Excellent</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>GPT-OSS 120B</strong></td>
+                            <td><span class="rating moderate">Moderate</span></td>
+                            <td><span class="rating moderate">Moderate</span></td>
+                            <td><span class="rating moderate">Moderate</span></td>
+                            <td><span class="rating moderate">Moderate</span></td>
+                            <td><span class="rating best">Best</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="takeaway">
+                <h3>💡 Key Insight</h3>
+                <p>The latest generation of models (GPT-5, Claude Sonnet 4.5, Gemini 3 Pro) show significant improvements across all benchmarks. Claude models lead in coding and safety, GPT-5 dominates in reasoning and multilingual tasks, while Gemini 3 Pro excels at multimodal understanding. Specialized reasoning models like o3 offer strong performance in complex problem-solving.</p>
+            </div>
+        </section>
+
+        <!-- Detailed Breakdown -->
+        <section id="details">
+            <h2>Detailed Analysis</h2>
+
+            <div class="expandable">
+                <div class="expandable-header">
+                    <h4>🔧 Coding & Development</h4>
+                    <span class="expandable-icon">▼</span>
+                </div>
+                <div class="expandable-content">
+                    <div class="expandable-content-inner">
+                        <p><strong>Best performers:</strong> Claude Opus 4.5, Claude Sonnet 4.5, Gemini 3 Pro</p>
+                        <p>Based on SWE Bench Pro results, Claude Opus 4.5 leads at 45.98%, followed by Claude Sonnet 4.5 at 43.60% and Gemini 3 Pro at 43.3%. These models excel at understanding complex codebases and implementing bug fixes across real-world software engineering tasks.</p>
+                        <ul>
+                            <li>Claude Opus 4.5: Top performer on professional coding benchmarks, excellent at complex software engineering tasks</li>
+                            <li>Claude Sonnet 4.5: Close second with strong code refactoring and debugging capabilities</li>
+                            <li>Gemini 3 Pro: Competitive at 43.3%, strong multimodal code understanding</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="expandable">
+                <div class="expandable-header">
+                    <h4>🧠 Reasoning & Problem Solving</h4>
+                    <span class="expandable-icon">▼</span>
+                </div>
+                <div class="expandable-content">
+                    <div class="expandable-content-inner">
+                        <p><strong>Best performers:</strong> GPT-5, Claude Opus 4.5, o3</p>
+                        <p>PRBench-Legal results show GPT-5 leading at 89.2%, with Claude Opus 4.5 at 87.4%. These models demonstrate exceptional capability in complex reasoning tasks, including legal analysis and multi-step problem solving.</p>
+                        <ul>
+                            <li>GPT-5: Superior logical reasoning and complex problem decomposition</li>
+                            <li>Claude Opus 4.5: Strong analytical capabilities with enhanced thinking modes</li>
+                            <li>o3: Specialized reasoning model competitive with top performers</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="expandable">
+                <div class="expandable-header">
+                    <h4>🌍 Multilingual Support</h4>
+                    <span class="expandable-icon">▼</span>
+                </div>
+                <div class="expandable-content">
+                    <div class="expandable-content-inner">
+                        <p><strong>Best performers:</strong> GPT-5, Gemini 3 Pro, Claude Sonnet 4.5</p>
+                        <p>MultiNRC benchmark results show GPT-5 achieving 83.5% accuracy across multiple languages, with Gemini 3 Pro at 81.2%. Modern models now have significantly improved multilingual capabilities compared to previous generations.</p>
+                        <ul>
+                            <li>GPT-5: 100+ languages, excellent translation and cross-lingual understanding</li>
+                            <li>Gemini 3 Pro: Native multilingual training, strong on Asian languages</li>
+                            <li>Claude Sonnet 4.5: Competitive performance across major languages</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="expandable">
+                <div class="expandable-header">
+                    <h4>🎨 Multimodal Understanding</h4>
+                    <span class="expandable-icon">▼</span>
+                </div>
+                <div class="expandable-content">
+                    <div class="expandable-content-inner">
+                        <p><strong>Best performers:</strong> Gemini 3 Pro, GPT-5-Pro, Claude Opus 4.5</p>
+                        <p>Humanity's Last Exam shows Gemini 3 Pro at 37.52%, GPT-5-Pro at 31.64%, demonstrating significant advances in understanding complex visual and multimodal content.</p>
+                        <ul>
+                            <li>Gemini 3 Pro: Superior image understanding, video analysis, and cross-modal reasoning</li>
+                            <li>GPT-5-Pro: Strong vision capabilities with excellent text-image integration</li>
+                            <li>Claude Opus 4.5: Competitive multimodal performance with thinking modes</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="expandable">
+                <div class="expandable-header">
+                    <h4>🔒 AI Safety & Security</h4>
+                    <span class="expandable-icon">▼</span>
+                </div>
+                <div class="expandable-content">
+                    <div class="expandable-content-inner">
+                        <p><strong>Best performers:</strong> GPT-OSS 120B, Claude models</p>
+                        <p>Fortress benchmark results show GPT-OSS 120B leading with lowest compliance score (8.24), followed by Claude models. Lower scores indicate better safety as they represent less compliance with malicious requests.</p>
+                        <ul>
+                            <li>GPT-OSS 120B: Best safety profile, lowest malicious request compliance</li>
+                            <li>Claude Opus 4.5 (thinking): Second-best at 9.63, excellent safety with reasoning</li>
+                            <li>Claude family: Consistently strong safety performance across all variants</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recommendations -->
+        <section id="recommendations">
+            <h2>Recommendations</h2>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>👨‍💻 For Developers</h3>
+                    <ul>
+                        <li>Primary: Claude Opus 4.5 or Claude Sonnet 4.5</li>
+                        <li>Best coding: Claude Opus 4.5 (45.98% on SWE Bench Pro)</li>
+                        <li>Best balance: Claude Sonnet 4.5 (43.60% coding + excellent safety)</li>
+                        <li>Alternative: Gemini 3 Pro (43.3%, strong multimodal)</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>📊 For Analysts & Researchers</h3>
+                    <ul>
+                        <li>Complex reasoning: GPT-5 (89.2% on PRBench)</li>
+                        <li>Multimodal analysis: Gemini 3 Pro (37.52% on HLE)</li>
+                        <li>Multilingual: GPT-5 (83.5% on MultiNRC)</li>
+                        <li>Deep thinking: Claude Opus 4.5 with thinking mode</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🏢 For Enterprise</h3>
+                    <ul>
+                        <li>Safety-critical: Claude models or GPT-OSS 120B</li>
+                        <li>Best ROI: Grok 4 ($4,694 revenue in VendingBench)</li>
+                        <li>All-rounder: GPT-5 (top-3 in all categories)</li>
+                        <li>Compliance: Verify safety scores on Fortress benchmark</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="takeaway">
+                <h3>🎯 Bottom Line</h3>
+                <p>The 2026 model landscape is dominated by GPT-5, Claude Sonnet 4.5, and Gemini 3 Pro. GPT-5 leads in coding and reasoning, Claude excels in safety and code quality, while Gemini dominates multimodal tasks. For production systems, consider Claude models for safety-critical applications and GPT-5 for maximum performance. Always validate models against your specific use case benchmarks.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>AI Research Summary • January 2026</p>
+    </footer>
+
+    <script>
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    // Animate bar charts
+                    const bars = entry.target.querySelectorAll('.bar-fill');
+                    bars.forEach((bar, index) => {
+                        // Get the target width from the inline style
+                        const targetWidth = bar.style.width;
+                        bar.style.setProperty('--target-width', targetWidth);
+                        // Stagger the animations slightly
+                        setTimeout(() => {
+                            bar.classList.add('animated');
+                        }, index * 50);
+                    });
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Make hero visible immediately
+        document.querySelector('.hero').classList.add('visible');
+
+        // Filter functionality
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const cards = document.querySelectorAll('.card[data-categories]');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active button
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filter = btn.dataset.filter;
+
+                // Filter cards
+                cards.forEach(card => {
+                    if (filter === 'all' || card.dataset.categories.includes(filter)) {
+                        card.style.display = 'block';
+                        card.style.animation = 'fadeIn 0.3s ease';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Expandable sections
+        const expandables = document.querySelectorAll('.expandable');
+
+        expandables.forEach(exp => {
+            const header = exp.querySelector('.expandable-header');
+            header.addEventListener('click', () => {
+                exp.classList.toggle('open');
+            });
+        });
+
+        // Smooth scroll for nav links
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Toggle functionality for Other Info section
+        const toggleBtns = document.querySelectorAll('.toggle-btn');
+        toggleBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const view = btn.dataset.view;
+                
+                // Update button states
+                toggleBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                // Update content visibility
+                document.querySelectorAll('.toggle-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                document.getElementById(`${view}-description`).classList.add('active');
+                document.getElementById(`${view}-view`).classList.add('active');
+            });
+        });
+
+        // Add fade-in animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
