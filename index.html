@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Models: Strengths & Weaknesses</title>
+    <title>AI Model Benchmarks: A Comprehensive Evaluation</title>
     <style>
         :root {
             --bg-primary: #0f172a;
@@ -500,6 +500,26 @@
             display: block;
         }
 
+        /* Fade-in animation for comparison boxes */
+        .comparison-box {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .comparison-box.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .comparison-box:nth-child(1) {
+            transition-delay: 0.1s;
+        }
+
+        .comparison-box:nth-child(2) {
+            transition-delay: 0.3s;
+        }
+
         .image-container {
             display: flex;
             justify-content: center;
@@ -941,21 +961,116 @@
     <nav>
         <h1>Wilson Chan - Generalist AI Summary</h1>
         <ul>
+            <li><a href="#ai-development-concept">How AI Works</a></li>
             <li><a href="#categories">Categories</a></li>
             <li><a href="#coding">Coding</a></li>
             <li><a href="#reasoning">Reasoning</a></li>
             <li><a href="#multimodal">Multimodal</a></li>
             <li><a href="#multilingual">Multilingual</a></li>
             <li><a href="#comparison">Comparison</a></li>
-            <li><a href="#recommendations">Recommendations</a></li>
+            <li><a href="#conclusion">Conclusion</a></li>
+            <li><a href="#sources">Sources</a></li>
         </ul>
     </nav>
 
     <main>
         <section class="hero">
-            <h1>AI Models: Strengths & Weaknesses</h1>
+            <h1>AI Model Benchmarks: A Comprehensive Evaluation</h1>
             <p>A technical comparison of leading generalist AI models and their specialised capabilities.</p>
             <div class="scroll-indicator">Scroll to explore</div>
+        </section>
+
+        <!-- How AI Development Works - Part 1 -->
+        <section id="ai-development-concept" style="padding: 4rem 2rem;">
+            <h2>💡 How Developers Build with AI</h2>
+            
+            <div style="max-width: 900px; margin: 0 auto;">
+                <div class="takeaway" style="margin-bottom: 2rem;">
+                    <h3>🔑 Key Concept</h3>
+                    <p style="font-size: 1.1rem;">Developers <strong>don't typically build AI models from scratch</strong>. Instead, they adapt existing models to their specific use cases. This will largely be due to their strengths and weaknesses.</p>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem;">
+                    <div class="comparison-box" style="background: var(--bg-secondary); padding: 2rem; border-radius: 0.5rem; border-left: 4px solid #ef4444;">
+                        <h3 style="color: #ef4444; margin-bottom: 1rem;">❌ From Scratch (Rare)</h3>
+                        <ul style="color: var(--text-secondary); line-height: 1.8;">
+                            <li>$100M+ in costs</li>
+                            <li>Years of development</li>
+                            <li>Thousands of GPUs</li>
+                            <li>Only 5-10 orgs globally</li>
+                        </ul>
+                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-secondary);">Examples: OpenAI, Google, Anthropic</p>
+                    </div>
+
+                    <div class="comparison-box" style="background: var(--bg-secondary); padding: 2rem; border-radius: 0.5rem; border-left: 4px solid #22c55e;">
+                        <h3 style="color: #22c55e; margin-bottom: 1rem;">✅ Adaptation (Common)</h3>
+                        <ul style="color: var(--text-secondary); line-height: 1.8;">
+                            <li>$1K-$100K in costs</li>
+                            <li>Weeks to months</li>
+                            <li>Standard hardware</li>
+                            <li>Accessible to most teams</li>
+                        </ul>
+                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-secondary);">What most companies do</p>
+                    </div>
+                </div>
+
+                <p style="text-align: center; margin-top: 2rem; color: var(--text-secondary); font-style: italic;">
+                    It would make the most sense if we just picked one of the existing models and adapted it to our needs.
+                </p>
+            </div>
+        </section>
+
+        <!-- AI Development Workflow - Part 2 -->
+        <section id="ai-development-workflow" style="padding: 4rem 2rem;">
+            <h2>🔄 Typical Development Workflow</h2>
+            
+            <div style="max-width: 900px; margin: 0 auto;">
+                <div style="background: var(--bg-secondary); padding: 2rem; border-radius: 0.5rem;">
+                    <h3 style="color: var(--accent); margin-bottom: 1.5rem; text-align: center;">Enterprise AI Development Process</h3>
+                    
+                    <div style="display: grid; gap: 1.5rem;">
+                        <div style="display: flex; gap: 1rem; align-items: start;">
+                            <div style="background: var(--accent); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">1</div>
+                            <div>
+                                <h4 style="color: var(--text-primary); margin-bottom: 0.5rem;">Choose Base Model</h4>
+                                <p style="color: var(--text-secondary); font-size: 0.95rem;">Select from GPT-5, Claude, Gemini, etc. based on benchmarks & requirements</p>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 1rem; align-items: start;">
+                            <div style="background: var(--accent); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">2</div>
+                            <div>
+                                <h4 style="color: var(--text-primary); margin-bottom: 0.5rem;">Add Company Knowledge</h4>
+                                <p style="color: var(--text-secondary); font-size: 0.95rem;">Implement with internal docs, databases, policies</p>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 1rem; align-items: start;">
+                            <div style="background: var(--accent); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">3</div>
+                            <div>
+                                <h4 style="color: var(--text-primary); margin-bottom: 0.5rem;">Customize Behaviour</h4>
+                                <p style="color: var(--text-secondary); font-size: 0.95rem;">Design system prompts, add guardrails, fine-tune on specific tasks if needed</p>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 1rem; align-items: start;">
+                            <div style="background: var(--accent); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">4</div>
+                            <div>
+                                <h4 style="color: var(--text-primary); margin-bottom: 0.5rem;">Test & Deploy</h4>
+                                <p style="color: var(--text-secondary); font-size: 0.95rem;">Evaluate accuracy, safety, latency. Gradual rollout with monitoring</p>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 1rem; align-items: start;">
+                            <div style="background: var(--accent); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">5</div>
+                            <div>
+                                <h4 style="color: var(--text-primary); margin-bottom: 0.5rem;">Iterate & Improve</h4>
+                                <p style="color: var(--text-secondary); font-size: 0.95rem;">Continuously update knowledge base, refine prompts, upgrade base model</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <!-- Categories Evaluated -->
@@ -1087,6 +1202,7 @@
                     </div>
                 </div>
             </div>
+            <p style="text-align: center; margin-top: 2rem; color: var(--text-secondary); font-size: 0.85rem; font-style: italic;">All values shown in percent (%)</p>
         </section>
 
         <!-- Reasoning Category Slide -->
@@ -1307,6 +1423,7 @@
                     </div>
                 </div>
             </div>
+            <p style="text-align: center; margin-top: 2rem; color: var(--text-secondary); font-size: 0.85rem; font-style: italic;">All values shown in percent (%)</p>
         </section>
 
         <!-- Multimodal Category Slide -->
@@ -1425,6 +1542,7 @@
                     </div>
                 </div>
             </div>
+            <p style="text-align: center; margin-top: 2rem; color: var(--text-secondary); font-size: 0.85rem; font-style: italic;">All values shown in percent (%)</p>
         </section>
 
         <!-- Multilingual Category Slide -->
@@ -1543,6 +1661,7 @@
                     </div>
                 </div>
             </div>
+            <p style="text-align: center; margin-top: 2rem; color: var(--text-secondary); font-size: 0.85rem; font-style: italic;">All values shown in percent (%)</p>
         </section>
 
         <!-- Vending Machine Operation Category Slide -->
@@ -1783,6 +1902,7 @@
                         <p style="color: #94a3b8; font-size: 0.85rem; margin-top: 1rem; font-style: italic;">
                             * Lower scores indicate better safety (less compliance with harmful requests)
                         </p>
+                        <p style="text-align: center; margin-top: 1rem; color: var(--text-secondary); font-size: 0.85rem; font-style: italic;">All values shown in percent (%)</p>
                     </div>
                 </div>
             </div>
@@ -1863,98 +1983,60 @@
             </div>
         </section>
 
-        <!-- Detailed Breakdown -->
-        <section id="details">
-            <h2>Detailed Analysis</h2>
-
-            <div class="expandable">
-                <div class="expandable-header">
-                    <h4>🔧 Coding & Development</h4>
-                    <span class="expandable-icon">▼</span>
-                </div>
-                <div class="expandable-content">
-                    <div class="expandable-content-inner">
-                        <p><strong>Best performers:</strong> Claude Opus 4.5, Claude Sonnet 4.5, Gemini 3 Pro</p>
-                        <p>Based on SWE Bench Pro results, Claude Opus 4.5 leads at 45.98%, followed by Claude Sonnet 4.5 at 43.60% and Gemini 3 Pro at 43.3%. These models excel at understanding complex codebases and implementing bug fixes across real-world software engineering tasks.</p>
-                        <ul>
-                            <li>Claude Opus 4.5: Top performer on professional coding benchmarks, excellent at complex software engineering tasks</li>
-                            <li>Claude Sonnet 4.5: Close second with strong code refactoring and debugging capabilities</li>
-                            <li>Gemini 3 Pro: Competitive at 43.3%, strong multimodal code understanding</li>
-                        </ul>
+        <!-- Conclusion -->
+        <section id="conclusion">
+            <h2>🎯 Key Takeaways</h2>
+            
+            <div style="max-width: 1000px; margin: 0 auto;">
+                <div class="takeaway" style="margin-bottom: 2rem;">
+                    <h3>🥇 Top Performers by Category</h3>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1rem;">
+                        <div>
+                            <p style="margin: 0;"><strong>Coding:</strong> Claude Opus 4.5 (45.98%)</p>
+                            <p style="margin: 0.5rem 0 0 0;"><strong>Reasoning:</strong> GPT-5-Pro (49.89%)</p>
+                            <p style="margin: 0.5rem 0 0 0;"><strong>Multimodal:</strong> Gemini 3 Pro (37.52%)</p>
+                        </div>
+                        <div>
+                            <p style="margin: 0;"><strong>Multilingual:</strong> GPT-5-Pro (65.20%)</p>
+                            <p style="margin: 0.5rem 0 0 0;"><strong>Safety:</strong> GPT-OSS 120B (8.24)</p>
+                            <p style="margin: 0.5rem 0 0 0;"><strong>Vending:</strong> Grok 4 ($4,694)</p>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="expandable">
-                <div class="expandable-header">
-                    <h4>🧠 Reasoning & Problem Solving</h4>
-                    <span class="expandable-icon">▼</span>
-                </div>
-                <div class="expandable-content">
-                    <div class="expandable-content-inner">
-                        <p><strong>Best performers:</strong> GPT-5, Claude Opus 4.5, o3</p>
-                        <p>PRBench-Legal results show GPT-5 leading at 89.2%, with Claude Opus 4.5 at 87.4%. These models demonstrate exceptional capability in complex reasoning tasks, including legal analysis and multi-step problem solving.</p>
-                        <ul>
-                            <li>GPT-5: Superior logical reasoning and complex problem decomposition</li>
-                            <li>Claude Opus 4.5: Strong analytical capabilities with enhanced thinking modes</li>
-                            <li>o3: Specialized reasoning model competitive with top performers</li>
-                        </ul>
+                <div class="card-grid" style="margin-top: 2rem;">
+                    <div class="card">
+                        <h3>🏆 All-Round Excellence</h3>
+                        <p style="color: var(--text-secondary);"><strong>GPT-5 / Claude Sonnet 4.5</strong></p>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem;">Consistently top-3 across all categories. Best choice for general-purpose applications requiring balanced performance.</p>
+                    </div>
+
+                    <div class="card">
+                        <h3>🔒 Safety-Critical Systems</h3>
+                        <p style="color: var(--text-secondary);"><strong>Claude Models / GPT-OSS 120B</strong></p>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem;">Lowest malicious compliance rates. Essential for healthcare, finance, and regulated industries.</p>
+                    </div>
+
+                    <div class="card">
+                        <h3>🎨 Specialized Tasks</h3>
+                        <p style="color: var(--text-secondary);"><strong>Choose by Use Case</strong></p>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem;">Visual content: Gemini 3 Pro<br>Complex reasoning: o3<br>Multilingual: GPT-5-Pro</p>
                     </div>
                 </div>
-            </div>
 
-            <div class="expandable">
-                <div class="expandable-header">
-                    <h4>🌍 Multilingual Support</h4>
-                    <span class="expandable-icon">▼</span>
+                <div class="takeaway" style="margin-top: 2rem;">
+                    <h3>💡 Final Recommendations</h3>
+                    <ul style="color: var(--text-secondary); line-height: 1.8; margin-left: 1.5rem;">
+                        <li>99% of developers should <strong>adapt existing models</strong>, not build from scratch</li>
+                        <li>Start with a strong base model and customize using prompts and fine-tuning</li>
+                        <li>Always validate models against specific use case with relevant benchmarks</li>
+                        <li>Balance performance, safety, and cost based on requirements</li>
+                    </ul>
                 </div>
-                <div class="expandable-content">
-                    <div class="expandable-content-inner">
-                        <p><strong>Best performers:</strong> GPT-5, Gemini 3 Pro, Claude Sonnet 4.5</p>
-                        <p>MultiNRC benchmark results show GPT-5 achieving 83.5% accuracy across multiple languages, with Gemini 3 Pro at 81.2%. Modern models now have significantly improved multilingual capabilities compared to previous generations.</p>
-                        <ul>
-                            <li>GPT-5: 100+ languages, excellent translation and cross-lingual understanding</li>
-                            <li>Gemini 3 Pro: Native multilingual training, strong on Asian languages</li>
-                            <li>Claude Sonnet 4.5: Competitive performance across major languages</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
 
-            <div class="expandable">
-                <div class="expandable-header">
-                    <h4>🎨 Multimodal Understanding</h4>
-                    <span class="expandable-icon">▼</span>
-                </div>
-                <div class="expandable-content">
-                    <div class="expandable-content-inner">
-                        <p><strong>Best performers:</strong> Gemini 3 Pro, GPT-5-Pro, Claude Opus 4.5</p>
-                        <p>Humanity's Last Exam shows Gemini 3 Pro at 37.52%, GPT-5-Pro at 31.64%, demonstrating significant advances in understanding complex visual and multimodal content.</p>
-                        <ul>
-                            <li>Gemini 3 Pro: Superior image understanding, video analysis, and cross-modal reasoning</li>
-                            <li>GPT-5-Pro: Strong vision capabilities with excellent text-image integration</li>
-                            <li>Claude Opus 4.5: Competitive multimodal performance with thinking modes</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="expandable">
-                <div class="expandable-header">
-                    <h4>🔒 AI Safety & Security</h4>
-                    <span class="expandable-icon">▼</span>
-                </div>
-                <div class="expandable-content">
-                    <div class="expandable-content-inner">
-                        <p><strong>Best performers:</strong> GPT-OSS 120B, Claude models</p>
-                        <p>Fortress benchmark results show GPT-OSS 120B leading with lowest compliance score (8.24), followed by Claude models. Lower scores indicate better safety as they represent less compliance with malicious requests.</p>
-                        <ul>
-                            <li>GPT-OSS 120B: Best safety profile, lowest malicious request compliance</li>
-                            <li>Claude Opus 4.5 (thinking): Second-best at 9.63, excellent safety with reasoning</li>
-                            <li>Claude family: Consistently strong safety performance across all variants</li>
-                        </ul>
-                    </div>
-                </div>
+                <p style="text-align: center; margin-top: 2rem; color: var(--text-secondary); font-style: italic;">
+                    Last updated: January 2026 • Data from Scale AI, Anthropic, OpenAI, and other benchmarks
+                </p>
             </div>
         </section>
 
@@ -1999,6 +2081,78 @@
                 <p>The 2026 model landscape is dominated by GPT-5, Claude Sonnet 4.5, and Gemini 3 Pro. GPT-5 leads in coding and reasoning, Claude excels in safety and code quality, while Gemini dominates multimodal tasks. For production systems, consider Claude models for safety-critical applications and GPT-5 for maximum performance. Always validate models against your specific use case benchmarks.</p>
             </div>
         </section>
+        <!-- Sources & References -->
+        <section id="sources">
+            <h2>📚 Sources & References</h2>
+            
+            <div style="max-width: 1000px; margin: 0 auto;">
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <h3>🔬 Benchmark Sources</h3>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li style="border: none; padding: 0.5rem 0;">
+                            <strong>SWE Bench Pro</strong> - Software Engineering Benchmark
+                            <br><a href="https://scale.com/research/swe_bench_pro" target="_blank" style="color: var(--accent); text-decoration: none;">scale.com/research/swe_bench_pro</a>
+                        </li>
+                        <li style="border: none; padding: 0.5rem 0;">
+                            <strong>PRBench-Legal</strong> - Professional Reasoning Benchmark (Legal Domain)
+                            <br><a href="https://scale.com/leaderboard/prbench-legal" target="_blank" style="color: var(--accent); text-decoration: none;">scale.com/leaderboard/prbench-legal</a>
+                        </li>
+                        <li style="border: none; padding: 0.5rem 0;">
+                            <strong>Humanity's Last Exam</strong> - Multimodal General Reasoning
+                            <br><a href="https://scale.com/leaderboard/humanitys_last_exam" target="_blank" style="color: var(--accent); text-decoration: none;">scale.com/leaderboard/humanitys_last_exam</a>
+                        </li>
+                        <li style="border: none; padding: 0.5rem 0;">
+                            <strong>MultiNRC</strong> - Multilingual Reading Comprehension
+                            <br><a href="https://scale.com/leaderboard/multinrc" target="_blank" style="color: var(--accent); text-decoration: none;">scale.com/leaderboard/multinrc</a>
+                        </li>
+                        <li style="border: none; padding: 0.5rem 0;">
+                            <strong>VendingBench</strong> - AI Business Operation Simulation
+                            <br><a href="https://andonlabs.com/evals/vending-bench" target="_blank" style="color: var(--accent); text-decoration: none;">andonlabs.com/evals/vending-bench</a>
+                        </li>
+                        <li style="border: none; padding: 0.5rem 0;">
+                            <strong>Fortress Benchmark</strong> - AI Safety & Malicious Compliance
+                            <br><a href="https://scale.com/leaderboard/fortress" target="_blank" style="color: var(--accent); text-decoration: none;">scale.com/leaderboard/fortress</a>
+                        </li>
+                        <li style="border: none; padding: 0.5rem 0;">
+                            <strong>Political Compass Test</strong> - AI Bias Evaluation
+                            <br><a href="https://trackingai.org/political-test" target="_blank" style="color: var(--accent); text-decoration: none;">trackingai.org/political-test</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <h3>🏢 Model Providers</h3>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li style="border: none; padding: 0.5rem 0;">
+                            <strong>Anthropic</strong> - Claude models (Opus, Sonnet, Haiku)
+                            <br><a href="https://www.anthropic.com" target="_blank" style="color: var(--accent); text-decoration: none;">anthropic.com</a>
+                        </li>
+                        <li style="border: none; padding: 0.5rem 0;">
+                            <strong>OpenAI</strong> - GPT models, o-series
+                            <br><a href="https://openai.com" target="_blank" style="color: var(--accent); text-decoration: none;">openai.com</a>
+                        </li>
+                        <li style="border: none; padding: 0.5rem 0;">
+                            <strong>Google DeepMind</strong> - Gemini models
+                            <br><a href="https://deepmind.google" target="_blank" style="color: var(--accent); text-decoration: none;">deepmind.google</a>
+                        </li>
+                        <li style="border: none; padding: 0.5rem 0;">
+                            <strong>xAI</strong> - Grok models
+                            <br><a href="https://x.ai" target="_blank" style="color: var(--accent); text-decoration: none;">x.ai</a>
+                        </li>
+                        <li style="border: none; padding: 0.5rem 0;">
+                            <strong>Moonshot AI</strong> - Kimi models
+                            <br><a href="https://www.moonshot.cn" target="_blank" style="color: var(--accent); text-decoration: none;">moonshot.cn</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>📊 Data & Methodology</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">All benchmark data sourced from official leaderboards and research publications as of January 2026. Performance metrics represent standardized evaluation across diverse test sets.</p>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; font-style: italic;">Note: Benchmark scores should be used as guidelines. Always validate models against your specific use case and requirements before deployment.</p>
+                </div>
+            </div>
+        </section>
     </main>
 
     <footer>
@@ -2039,6 +2193,20 @@
 
         // Make hero visible immediately
         document.querySelector('.hero').classList.add('visible');
+
+        // Fade-in animation for comparison boxes
+        const comparisonObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    comparisonObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.3 });
+
+        document.querySelectorAll('.comparison-box').forEach(box => {
+            comparisonObserver.observe(box);
+        });
 
         // Filter functionality
         const filterBtns = document.querySelectorAll('.filter-btn');
