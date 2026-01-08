@@ -140,7 +140,15 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            color: transparent;
             animation: slideInDown 1s ease;
+        }
+
+        @supports not (background-clip: text) {
+            .hero h1 {
+                color: var(--accent);
+                background: none;
+            }
         }
 
         .hero p {
